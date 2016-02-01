@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @id PicoMenuHiding.php 01.Feb.2016
  * 
@@ -10,8 +11,6 @@
  * @copyright Copyright (c) 2016 edor.de (Uwe Fritz)
  * @license MIT
  */
-
-
 final class PicoMenuHiding extends AbstractPicoPlugin {
 
     /**
@@ -29,8 +28,9 @@ final class PicoMenuHiding extends AbstractPicoPlugin {
      * @var string[]
      */
     protected $dependsOn = array();
-
-
+    
+    private $editorAdminPath;
+    
     /**
      * Triggered after Pico has loaded all available plugins
      *
@@ -62,6 +62,11 @@ final class PicoMenuHiding extends AbstractPicoPlugin {
     public
     function onConfigLoaded( array &$config ) {
         // your code
+        if ( $config['PicoEditor']['url'] ) {
+            $this->editorAdminPath = $config['PicoEditor']['url'];
+        } else {
+            $this->editorAdminPath = "9348SDF509ER3485";
+        }
     }
 
 
@@ -141,7 +146,7 @@ final class PicoMenuHiding extends AbstractPicoPlugin {
         $clean_menu_pages = array();
 
         foreach ( $pages as $page ) {
-            if ( ( $page[ 'hiding' ] == 1 ) && ( !preg_match( '/admin/', $_SERVER[ 'REQUEST_URI' ] ) ) ) {
+            if ( ( $page[ 'hiding' ] == 1 ) && ( !preg_match( '/'.$this->editorAdminPath.'/', $_SERVER[ 'REQUEST_URI' ] ) ) ) {
                 // hide this entry from the menu, if not in admin
             }
             else {
@@ -149,7 +154,6 @@ final class PicoMenuHiding extends AbstractPicoPlugin {
             }
         }
         $pages = $clean_menu_pages;
-
     }
 
 }
