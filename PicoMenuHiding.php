@@ -62,7 +62,7 @@ final class PicoMenuHiding extends AbstractPicoPlugin {
     public
     function onConfigLoaded( array &$config ) {
         // your code
-        if ( $config['PicoEditor']['url'] ) {
+        if ( isset ( $config['PicoEditor']['url'] ) ) {
             $this->editorAdminPath = $config['PicoEditor']['url'];
         } else {
             $this->editorAdminPath = "9348SDF509ER3485";
